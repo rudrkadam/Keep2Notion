@@ -1,4 +1,4 @@
-![Keep2Icon](title.png)
+![Keep2Icon](public/title.png)
 
 # Keep2Notion
 
