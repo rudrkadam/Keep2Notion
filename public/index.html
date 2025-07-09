@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keep2Notion - Transfer Expenses from Google Keep to Notion</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <img src="title.png" alt="Keep2Notion" class="title-image">
+            <p class="header-description">Transfer your daily expenses from Google Keep Notes to your Notion database.</p>
+        </header>
+
+        <div class="step-container">
+            <!-- Step 1: Notion Configuration -->
+            <div class="step" id="step1">
+                <h2>🔧 Step 1: Configure Notion</h2>
+                <div class="form-group">
+                    <label for="notionToken">Notion Integration Token:</label>
+                    <input type="password" id="notionToken" placeholder="secret_xxxxxxxxxxxx">
+                    <small>Get your token from <a href="https://www.notion.so/my-integrations"
+                            target="_blank">notion.so/my-integrations</a></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="databaseUrl">Notion Database URL:</label>
+                    <input type="url" id="databaseUrl" placeholder="https://notion.so/workspace/your-database-id">
+                    <small>Copy the URL of your expense database from Notion</small>
+                </div>
+
+                <button id="testConnection" class="btn btn-primary">Test Connection</button>
+                <div id="connectionStatus" class="status-message"></div>
+            </div>
+
+            <!-- Step 2: Paste Google Keep Text -->
+            <div class="step" id="step2" style="display: none;">
+                <h2>📋 Step 2: Paste Your Google Keep Expenses</h2>
+                <div class="form-group">
+                    <label for="keepText">Google Keep Text:</label>
+                    <textarea id="keepText" rows="10" placeholder="Wednesday, 25th June
+• Bus Ticket - 20 (Cash)
+• Metro Ticket - 22 (Card)
+• Breakfast - 50 (UPI)
+• Amazon Refund - +200 (Bank A/C)
+
+Thursday, 26th June
+• Cold Coffee - 50 (UPI)
+• Auto Rickshaw - 100 (UPI)
+• Mom - +5000 (IMPS)"></textarea>
+                    <small>Copy and paste your expense text from Google Keep exactly as written</small>
+                </div>
+
+                <button id="parseExpenses" class="btn btn-primary">Parse Expenses</button>
+                <div id="parseStatus" class="status-message"></div>
+            </div>
+
+            <!-- Step 3: Review Parsed Expenses -->
+            <div class="step" id="step3" style="display: none;">
+                <h2>👀 Step 3: Review Parsed Expenses</h2>
+                <div id="expensesPreview"></div>
+                <div class="form-actions">
+                    <button id="uploadExpenses" class="btn btn-success">Upload to Notion</button>
+                    <button id="editExpenses" class="btn btn-secondary">Edit & Re-parse</button>
+                </div>
+                <div id="uploadStatus" class="status-message"></div>
+            </div>
+
+            <!-- Step 4: Results -->
+            <div class="step" id="step4" style="display: none;">
+                <h2>✅ Step 4: Upload Complete</h2>
+                <div id="uploadResults"></div>
+                <button id="startOver" class="btn btn-primary">Process More Expenses</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Made by <a href="https://rudrkadam.carrd.co/">Rudra</a> |
+            <a href="https://github.com/rudrkadam/Keep2Notion/" target="_blank">GitHub Repo</a>
+            
+        </p>
+    </footer>
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeHelp()">&times;</span>
+            <h2>🆘 How to Use Keep2Notion</h2>
+            <ol>
+                <li><strong>Get Notion Token:</strong> Go to <a href="https://www.notion.so/my-integrations"
+                        target="_blank">notion.so/my-integrations</a> and create a new integration</li>
+                <li><strong>Share Database:</strong> Share your expense database with the integration you created</li>
+                <li><strong>Copy Database URL:</strong> Copy the URL of your Notion database</li>
+                <li><strong>Format Your Keep Notes:</strong> Make sure your expenses follow this format:
+                    <pre>Monday, 23rd June
+• Description - Amount (Mode)
+• Another expense - +500 (UPI)</pre>
+                </li>
+                <li><strong>Paste & Parse:</strong> Paste your text and let the app parse your expenses</li>
+                <li><strong>Review & Upload:</strong> Check the parsed data and upload to Notion</li>
+            </ol>
+            <p><strong>Note:</strong> Expenses without "+" are treated as spending (negative), those with "+" are income
+                (positive).</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
