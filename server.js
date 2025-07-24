@@ -36,10 +36,11 @@ app.post('/api/test-notion', async (req, res) => {
     const isConnected = await notionClient.testConnection();
     
     if (isConnected) {
-      const schema = await notionClient.getDatabaseSchema();
+      const { title, schema } = await notionClient.getDatabaseSchema();
       res.json({ 
         success: true, 
         message: 'Successfully connected to Notion database!',
+        databaseName: title,
         schema: schema
       });
     } else {

@@ -35,7 +35,12 @@ class NotionClient {
         };
       });
       
-      return schema;
+      // Extract the database title (name)
+      const title = database.title && database.title.length > 0
+        ? database.title[0].text.content
+        : 'Untitled';
+      
+      return { title, schema };
     } catch (error) {
       console.error('❌ Error fetching database schema:', error.message);
       throw error;

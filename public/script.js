@@ -17,6 +17,7 @@ const elements = {
     uploadStatus: document.getElementById('uploadStatus'),
     uploadResults: document.getElementById('uploadResults'),
     startOver: document.getElementById('startOver'),
+    proceedToStep2: document.getElementById('proceedToStep2'),
     steps: {
         step1: document.getElementById('step1'),
         step2: document.getElementById('step2'),
@@ -32,6 +33,9 @@ document.addEventListener('DOMContentLoaded', function() {
     elements.uploadExpenses.addEventListener('click', uploadToNotion);
     elements.editExpenses.addEventListener('click', goBackToEdit);
     elements.startOver.addEventListener('click', startOverProcess);
+    elements.proceedToStep2.addEventListener('click', function() {
+        showStep(2);
+    });
     
     // Load saved data from localStorage
     loadSavedData();
@@ -79,16 +83,16 @@ async function testNotionConnection() {
         const result = await response.json();
         
         if (result.success) {
-            showStatus('connectionStatus', result.message, 'success');
+            let dbNameMsg = result.databaseName ? `Database Connected: ${result.databaseName}` : '';
+            showStatus('connectionStatus', dbNameMsg, 'success');
             notionConfig = { token, databaseUrl };
             saveData();
             
-            // Show step 2 after successful connection
-            setTimeout(() => {
-                showStep(2);
-            }, 1500);
+            // Show the Proceed button
+            elements.proceedToStep2.style.display = 'inline-block';
         } else {
             showStatus('connectionStatus', `Connection failed: ${result.error}`, 'error');
+            elements.proceedToStep2.style.display = 'none';
         }
     } catch (error) {
         showStatus('connectionStatus', `Network error: ${error.message}`, 'error');
